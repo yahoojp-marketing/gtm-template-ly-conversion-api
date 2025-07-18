@@ -392,7 +392,7 @@ function buildRequestBody(data, eventData) {
   body.data[0].user.line_uid = data.line_uid;
 
   body.data[0].web = {};
-  body.data[0].web.referrer_url = data.referrer || eventData.page_referrer;
+  body.data[0].web.referrer_url = data.referrer_url || eventData.page_referrer;
   body.data[0].web.ip = data.ip || eventData.ip_override;
   body.data[0].web.user_agent = data.user_agent || eventData.user_agent;
   body.data[0].web.url = data.url || eventData.page_location;
@@ -407,10 +407,10 @@ function buildRequestBody(data, eventData) {
     }
     if (data.itemsInputType === 'fix' && data.itemsFix) {
       return data.itemsFix.map(element => ({
-        item_id: element.item_id,
-        category_id: element.category_id,
-        price: makeNumber(element.price),
-        quantity: makeNumber(element.quantity),
+        item_id: element.item_id !== "" ? element.item_id : null,
+        category_id: element.category_id !== "" ? element.category_id : null,
+        price: (element.price !== "" && element.price !== null ) ? makeNumber(element.price) : null,
+        quantity: (element.quantity !== "" && element.quantity !== null ) ? makeNumber(element.quantity) : null,
       }));
     }
   })();
